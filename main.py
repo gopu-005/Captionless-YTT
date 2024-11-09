@@ -1,9 +1,9 @@
 import streamlit as st
-from dotenv import load_dotenv # type: ignore
+from dotenv import load_dotenv
 import os
-import google.generativeai as genai # type: ignore
-from youtube_transcript_api import YouTubeTranscriptApi # type: ignore
-from pytube import YouTube # type: ignore
+import google.generativeai as genai
+from youtube_transcript_api import YouTubeTranscriptApi
+from pytube import YouTube
 import requests
 
 # Load environment variables
@@ -54,14 +54,23 @@ def generate_gemini_content(transcript_text, prompt):
     response = model.generate_content(prompt + transcript_text)
     return response.text
 
+def convert_audio_to_text(youtube_video_url):
+    try:
+        # Code to convert audio to text, e.g., downloading audio, sending it to an API
+        response = convert_audio_to_text(youtube_video_url)
+        return response  # Process and return the transcript text
+    except Exception as e:
+        print("Detailed error:", e)  # Log the error details
+        raise Exception("Error in converting audio to text: " + str(e))
+
+
 # Streamlit UI
-st.title('YouTube Video Summarizer [Captionless Videos]')
+st.title('YouTube Video Summarizer [Captionless Video]')
 youtube_link = st.text_input('Enter YouTube video link:')
 
 if youtube_link:
     video_id = youtube_link.split("=")[1]
-    st.image(f'http://img.youtube.com/vi/{video_id}/0.jpg', use_container_width=True)
-
+    st.image(f'http://img.youtube.com/vi/{video_id}/0.jpg', use_column_width=True)
 
 if st.button('Get Detailed Notes'):
     transcript_text = extract_transcript_details(youtube_link)
